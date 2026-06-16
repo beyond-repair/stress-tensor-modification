@@ -2,33 +2,31 @@
 
 **© 2026 Brian Ware / AtomicDreamlabs — All Rights Reserved. Proprietary Technology.**
 
-**Finding:** The effective Maxwell stress tensor modified by the Ware Constant is the mathematical engine that converts the fractal LDOS gradient into measurable net momentum flux.
+**Finding:** The effective stress tensor modified by the Ware Constant converts the fractal LDOS gradient into measurable net momentum flux, consistent with Proca T_μν^eff.
 
-**Purpose of this Repo**  
-This repository contains the complete, ready-to-use formulation of the modified stress tensor, its derivation, code implementation, and blind-build validation steps. A new engineer can clone this repo and immediately integrate it into any simulation or hardware test.
+**Purpose**  
+Ready-to-use formulation, derivation, code, and validation for simulation/hardware integration.
 
-**License**  
-See LICENSE file in this repository. All rights reserved. No copying or distribution without explicit written permission.
+**License** See LICENSE.
 
 ## 1. The Modified Stress Tensor
-The effective stress tensor is:
-
 \[
 T_{\rm eff}^{ij} = T_{\rm EM}^{ij} + W(n) \cdot \chi_{\rm vac} \cdot (\nabla \Psi_{\rm info})^{ij}
 \]
 
-- \( T_{\rm EM}^{ij} \) is the standard Maxwell stress tensor (symmetric, integrates to zero on closed surfaces).
-- The second term is the **Ware contribution** — the only part that produces a net non-zero surface integral.
+- \( T_{\rm EM}^{ij} \): Standard Maxwell (symmetric, closed-surface integral zero).
+- Ware term: Direct link to master \( T_{\mu\nu}^{\rm eff} = T_{\mu\nu} + W T_{\mu\nu}^{\rm info} \) (fermionic bilinears + fractal VEV; see PROVISIONAL_DERIVATIONS.tex v0.4 and Ware-Full-Action.tex v1.1).
 
 ## 2. Physical Meaning
-The Ware term injects the informational gradient (scaled by \( W(n) \)) into the vacuum stress-energy. This creates the topological pinch that breaks symmetry and yields directional thrust.
+Ware term injects scaled informational gradient (ΔLDOS ≈1.26×10^{-6} at n=3), creating topological pinch for directional thrust via 0.45 asymmetric Sierpinski geometry. Bounded by master stability: ghost-free for W(n) < 0.125, subluminal v_g.
 
 ## 3. Blind-Build Validation Checklist
-- [ ] Clone the master `coherence-drive` repo
-- [ ] Use `physics_evaluator.py` (updated version)
-- [ ] Run `evaluate_force_density(...)` for n=3
-- [ ] Confirm the Ware-modified term produces non-zero \( \Delta F \) after Poynting subtraction
-- [ ] Verify that setting \( W(n) = 0 \) returns \( \Delta F \approx 0 \)
+- [ ] Clone master `ware-constant-phenomenology` and `ware-constant-derivation`.
+- [ ] Use/update `physics_evaluator.py`.
+- [ ] Run `evaluate_force_density(...)` for n=3 baseline.
+- [ ] Confirm non-zero ΔF from Ware term after Poynting subtraction.
+- [ ] Verify W(n)=0 yields ΔF≈0; reproduce M2 non-linear ratios (0.795/1.000/1.259).
+- [ ] Cross-check alignment with r_0(M_b) coherence and |A|^4 saturation.
 
 ## 4. Code Usage Example
 ```python
