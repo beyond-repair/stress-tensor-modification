@@ -1,28 +1,24 @@
-# Stress Tensor Modification (Coherence Drive)
+# Stress Tensor Modification
 
-**Status (2026-08-14):** Full-wave EFIE BEM (radiating Helmholtz kernel) + quasi-static / magnetostatic predecessors. Option A lock. No propulsion claims.
+**Status (2026-08-14):** Research-grade solvers. \(W_\star=1/(4\pi)\) default in phenomenology; evaluator defaults to model="star" with W=0.08 (0.5% difference — acceptable).
 
-## Components
+## Solvers
 
-| File | Role |
-|------|------|
-| `physics_evaluator.py` | Maxwell stress + Ware term |
-| `bem_sierpinski.py` | Electrostatic BEM |
-| `rf_bem_sierpinski.py` | Magnetostatic + quasi-static RF |
-| `fullwave_bem.py` | **Full-wave EFIE** with radiating Green's function |
-| `couple_sierpinski_evaluator.py` | Synthetic-field coupling demo |
+| File | Regime | Notes |
+|------|--------|-------|
+| physics_evaluator.py | Maxwell + Ware | Self-tests pass |
+| bem_sierpinski.py | Electrostatic BEM | Direction stable under refinement |
+| rf_bem_sierpinski.py | Magnetostatic + quasi-static RF | Thin-shell / Leontovich |
+| fullwave_bem.py | Full-wave EFIE | Radiating Helmholtz kernel; piecewise-constant; PEC |
 
-```bash
-python physics_evaluator.py
-python fullwave_bem.py
-```
+## Mesh Convergence
 
-## Limits
+Directional unit-vector dots under aft-face refinement (n_aft=1→2→3) are O(0.99) for electrostatic/RF modes. Force *magnitudes* are not yet mesh-converged to engineering tolerance; piecewise-constant basis limits accuracy. RWG/higher-order remains open.
 
-Piecewise-constant face unknowns; PEC surface only; dense solver. Not a higher-order RWG / MLFMA production code.
+## Topological Pinch
 
-## Cross-References
+No solver output confirms the 92% aft-face claim. Treat as hypothesis.
 
-- Geometry: sierpinski-geometry-045
-- Phenomenology: ware-constant-phenomenology
-- Ledger: CFTv3.3-IQG-Unified-Framework
+## Cross-Ref
+
+phenomenology · sierpinski-geometry-045 · coherence-drive
