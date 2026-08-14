@@ -1,55 +1,70 @@
-# physics_evaluator.py — Ware Injection & Stress Tensor Evaluator (v1.1)
+"""
+physics_evaluator_snippet.py — Minimal Ware-coupled stress-tensor evaluator (v1.2)
+
+Status: Illustrative fragment only. Maxwell stress is a zero placeholder.
+Do not treat numerical output as physical validation.
+"""
+
 import numpy as np
+from typing import Dict, Any
 
 class MaxwellStressTensorEvaluator:
-    def __init__(self, W_base=0.08, model='M2', chi_vac=1.0):
+    def __init__(self, W_base: float = 0.08, model: str = "M2", chi_vac: float = 1.0):
         self.W_base = W_base
         self.model = model
-        self.chi_vac = chi_vac  # vacuum susceptibility (tuned from baseline sim)
+        self.chi_vac = chi_vac
 
-    def W(self, n):
-        """M2 renormalization"""
-        return self.W_base * np.exp(0.23 * (n - 1))
+    def W(self, n: int) -> float:
+        """Return the scaling factor. M2 is provisional."""
+        if self.model == "M2":
+            return self.W_base * np.exp(0.23 * (n - 1))
+        return self.W_base
 
-    def apply_ware_coupling(self, ldos_field, n):
-        """Apply Ware scaling to LDOS gradient (fractal transducer)"""
-        scaled = self.W(n) * self.chi_vac * ldos_field
-        # Optional: |A|^4 saturation proxy at high LDOS
-        # scaled = scaled / (1 + lambda_A * np.abs(scaled)**2)
-        return scaled
+    def apply_ware_coupling(self, ldos_field: np.ndarray, n: int) -> np.ndarray:
+        """Scale an LDOS (or informational) field by W(n) * chi_vac."""
+        return self.W(n) * self.chi_vac * ldos_field
 
-    def compute_stress_gradient(self, tensor_field, mesh_dx):
-        """Compute (∇ Ψ_info) contribution for surface integral"""
-        # Finite difference gradient (vectorized)
-        grad = np.gradient(tensor_field, mesh_dx, axis=(2,3,4))  # adjust axes per mesh
-        return grad
+    def compute_maxwell_stress(self, E: np.ndarray, H: np.ndarray) -> np.ndarray:
+        """
+        Placeholder for the standard Maxwell stress tensor.
+        A real implementation must compute the full symmetric tensor
+        from E and H and is required before any force claim can be made.
+        """
+        return np.zeros_like(E)
 
-    def evaluate_force_density(self, E, H, ldos_field, n=3, mesh_dx=1.0, mesh_L=1.0):
-        """Full evaluation: EM + Ware contribution"""
-        # EM part (cancels on closed surface)
-        T_em = self.compute_maxwell_stress(E, H)  # placeholder impl
+    def evaluate_force_density(
+        self,
+        E: np.ndarray,
+        H: np.ndarray,
+        ldos_field: np.ndarray,
+        n: int = 3,
+        mesh_dx: float = 1.0,
+        mesh_L: float = 1.0,
+    ) -> Dict[str, Any]:
+        """
+        Schematic evaluation.
 
+        Returns a dictionary whose numerical contents are currently
+        meaningless because the Maxwell stress is zero and no real
+        surface integral is performed.
+        """
+        T_em = self.compute_maxwell_stress(E, H)
         scaled_ldos = self.apply_ware_coupling(ldos_field, n)
-        grad_psi_info = self.compute_stress_gradient(
-            T_em * scaled_ldos[:, None, :, :, :], mesh_dx  # corrected tensor multiply
-        )
 
-        # Surface integral proxy (net Ware flux)
-        F_surface = np.sum(grad_psi_info * mesh_L**3, axis=(2,3,4))  # volume → flux approx
-        delta_F = F_surface  # Ware residual (EM \~0)
+        # Placeholder residual
+        delta_F = np.zeros(3)
 
-        # Validation
-        if n == 3:
-            assert abs(self.W(n) - 0.1267) < 0.001, "W(3) mismatch"
-        # Add W=0 test: delta_F ≈0
+        return {
+            "F_total": delta_F,
+            "delta_F_Ware": delta_F,
+            "scaled_ldos": scaled_ldos,
+            "W_used": self.W(n),
+            "warning": "Placeholder implementation — not physically validated",
+        }
 
-        return {"F_total": F_surface, "delta_F_Ware": delta_F, "scaled_ldos": scaled_ldos}
 
-    def compute_maxwell_stress(self, E, H):
-        """Standard EM tensor (placeholder)"""
-        # Implement full Maxwell stress tensor here
-        return np.zeros_like(E)  # stub for integration
-
-# Usage
-# evaluator = MaxwellStressTensorEvaluator()
-# results = evaluator.evaluate_force_density(E, H, ldos_field, n=4)
+# Example (does not produce scientific results)
+if __name__ == "__main__":
+    evaluator = MaxwellStressTensorEvaluator(W_base=0.08, model="M2")
+    print("W(3) under M2:", evaluator.W(3))
+    print("Note: full Maxwell stress and surface integral are not implemented.")

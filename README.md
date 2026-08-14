@@ -1,42 +1,51 @@
 # Stress Tensor Modification (Coherence Drive)
 
-**© 2026 Brian Ware / AtomicDreamlabs — All Rights Reserved. Proprietary Technology.**
+**© 2026 William B. Ware / Atomic Dream Labs — All Rights Reserved.**
 
-**Finding:** The effective stress tensor modified by the Ware Constant converts the fractal LDOS gradient into measurable net momentum flux, consistent with Proca T_μν^eff.
+**Status (2026-08-14):** Conceptual formulation + minimal evaluator fragment. Not a completed, validated simulation suite.
 
-**Purpose**  
-Ready-to-use formulation, derivation, code, and validation for simulation/hardware integration.
+---
 
-**License** See LICENSE.
+## 1. Modified Stress Tensor
 
-## 1. The Modified Stress Tensor
 \[
-T_{\rm eff}^{ij} = T_{\rm EM}^{ij} + W(n) \cdot \chi_{\rm vac} \cdot (\nabla \Psi_{\rm info})^{ij}
+T_{\rm eff}^{ij} = T_{\rm EM}^{ij} + W(n)\cdot\chi_{\rm vac}\cdot(\nabla\Psi_{\rm info})^{ij}
 \]
 
-- \( T_{\rm EM}^{ij} \): Standard Maxwell (symmetric, closed-surface integral zero).
-- Ware term: Direct link to master \( T_{\mu\nu}^{\rm eff} = T_{\mu\nu} + W T_{\mu\nu}^{\rm info} \) (fermionic bilinears + fractal VEV; see PROVISIONAL_DERIVATIONS.tex v0.4 and Ware-Full-Action.tex v1.1).
+- \(T_{\rm EM}^{ij}\): standard Maxwell stress (integrates to zero on a closed surface in free space).
+- Ware term: couples the informational / LDOS gradient into the effective stress, consistent with the master relation \(T_{\mu\nu}^{\rm eff}=T_{\mu\nu}+W\,T_{\mu\nu}^{\rm info}\).
 
-## 2. Physical Meaning
-Ware term injects scaled informational gradient (ΔLDOS ≈1.26×10^{-6} at n=3), creating topological pinch for directional thrust via 0.45 asymmetric Sierpinski geometry. Bounded by master stability: ghost-free for W(n) < 0.125, subluminal v_g.
+---
 
-## 3. Blind-Build Validation Checklist
-- [ ] Clone master `ware-constant-phenomenology` and `ware-constant-derivation`.
-- [ ] Use/update `physics_evaluator.py`.
-- [ ] Run `evaluate_force_density(...)` for n=3 baseline.
-- [ ] Confirm non-zero ΔF from Ware term after Poynting subtraction.
-- [ ] Verify W(n)=0 yields ΔF≈0; reproduce M2 non-linear ratios (0.795/1.000/1.259).
-- [ ] Cross-check alignment with r_0(M_b) coherence and |A|^4 saturation.
+## 2. Intended Physical Meaning
 
-## 4. Code Usage Example
-```python
-from physics_evaluator import MaxwellStressTensorEvaluator
+The additional term is hypothesized to convert a spatially asymmetric LDOS gradient (produced by the 0.45 Sierpinski geometry) into a non-vanishing net momentum flux. Magnitude is controlled by the Ware factor and the vacuum susceptibility \(\chi_{\rm vac}\).
 
-evaluator = MaxwellStressTensorEvaluator(W_base=0.08, model='M2')
+---
 
-f_total, delta_F, F_surface, Phi, scaled_ldos = evaluator.evaluate_force_density(
-    E, H, ldos_field, n=3, mesh_dx=mesh_dx, mesh_L=mesh_L
-)
+## 3. Evaluator Fragment
 
-print(f"Surface Force: {F_surface}")
-print(f"Residual ΔF (Ware contribution): {delta_F}")
+A minimal Python class is provided in `physics_evaluator_snippet.py`. It is intentionally incomplete:
+
+- Maxwell stress implementation is a placeholder (returns zeros).
+- Surface-integral and Poynting logic are schematic.
+- No mesh handling, no file I/O, no convergence tests.
+
+It exists to illustrate the intended call signature and the W(n) scaling, not to produce publishable numbers.
+
+---
+
+## 4. Consistency Notes
+
+- Use the Symbol Registry in ware-constant-phenomenology.
+- The M2 values W(3)≈0.1267 etc. currently conflict with the older ghost-free bound; choose one convention and document it.
+- Claims of mesh-invariant residual force or specific force ratios are **not** supported by any released numerical output in this repository.
+
+---
+
+## Cross-References
+
+- Canonical mathematics: [ware-constant-phenomenology](https://github.com/beyond-repair/ware-constant-phenomenology)
+- Momentum closure concept: [momentum-closure](https://github.com/beyond-repair/momentum-closure)
+- Geometry: [sierpinski-geometry-045](https://github.com/beyond-repair/sierpinski-geometry-045)
+- Integration status: [coherence-drive](https://github.com/beyond-repair/coherence-drive)
