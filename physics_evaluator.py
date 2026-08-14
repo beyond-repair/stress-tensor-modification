@@ -42,7 +42,7 @@ class MaxwellStressTensorEvaluator:
     Evaluate net force from Maxwell stress + optional Ware/informational term.
     """
 
-    def __init(
+    def __init__(
         self,
         W_base: float = W_STAR,
         model: str = "star",
