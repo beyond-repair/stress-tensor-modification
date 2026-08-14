@@ -2,7 +2,7 @@
 
 **© 2026 William B. Ware / Atomic Dream Labs — All Rights Reserved.**
 
-**Status (2026-08-14):** Functional evaluator under locked \(W_\star = 0.08\). M2 mode available with explicit stability warning. No propulsion performance claims.
+**Status (2026-08-14):** Functional evaluator under locked \(W_\star=0.08\) (Option A). Coupling script to the 0.45 Sierpinski mesh is provided. Synthetic fields only — no propulsion performance claims.
 
 ---
 
@@ -14,13 +14,15 @@ T_{\rm eff}^{ij} = T_{\rm EM}^{ij} + W\cdot\chi_{\rm vac}\cdot(\text{information
 
 - \(T_{\rm EM}^{ij}\): classical Maxwell stress (SI).
 - Informational term: supplied by the caller (scalar LDOS proxy or vector field).
+- Under **Option A**, \(W=W_\star=0.08\) is constant for the gravitational / force sector.
 
 ---
 
 ## 2. Evaluator
 
 ```bash
-python physics_evaluator.py          # runs self-tests
+python physics_evaluator.py                # self-tests
+python couple_sierpinski_evaluator.py      # mesh coupling demo
 ```
 
 ```python
@@ -28,31 +30,32 @@ from physics_evaluator import MaxwellStressTensorEvaluator, make_unit_sphere_sur
 
 ev = MaxwellStressTensorEvaluator(model="star")   # locked W = 0.08
 cents, norms, areas = make_unit_sphere_surface()
-E = ...  # shape (N, 3)
-B = ...  # shape (N, 3)
-info = ...  # optional scalar or (N, 3)
-
 result = ev.evaluate(E, B, norms, areas, info_field=info)
-print(result["F_total"], result["W_used"])
 ```
 
-Self-tests confirm:
-- zero fields → zero force (null test),
-- uniform E on a closed surface → net Maxwell force = 0,
-- W is locked at 0.08 for model="star".
+Self-tests confirm null result, closed-surface cancellation for uniform E, and W lock.
 
 ---
 
-## 3. Guardrails
+## 3. Mesh Coupling
 
-- Default model is `"star"` (constant \(W_\star = 0.08\)).
-- Model `"M2"` emits a `RuntimeWarning` because tabulated values exceed the earlier ghost-free bound.
-- The evaluator never invents an LDOS or thrust number; it only contracts fields you supply.
+`couple_sierpinski_evaluator.py` imports the asymmetric tetrahedron from
+`sierpinski-geometry-045`, builds surface elements, and evaluates residual
+force under synthetic fields. Directional stability under aft-face refinement
+is reported. No physical thrust number is claimed.
+
+---
+
+## 4. Guardrails
+
+- Default model is `"star"` (constant \(W_\star=0.08\)).
+- Model `"M2"` emits a `RuntimeWarning`.
+- The evaluator never invents an LDOS or thrust number.
 
 ---
 
 ## Cross-References
 
 - Geometry: [sierpinski-geometry-045](https://github.com/beyond-repair/sierpinski-geometry-045)
-- Canonical mathematics: [ware-constant-phenomenology](https://github.com/beyond-repair/ware-constant-phenomenology)
+- Canonical mathematics (Option A locked): [ware-constant-phenomenology](https://github.com/beyond-repair/ware-constant-phenomenology)
 - Consistency ledger: [CFTv3.3-IQG-Unified-Framework](https://github.com/beyond-repair/CFTv3.3-IQG-Unified-Framework)
