@@ -1,24 +1,39 @@
 # Stress Tensor Modification
 
-**Status (2026-08-14):** Research-grade solvers. \(W_\star=1/(4\pi)\) default in phenomenology; evaluator defaults to model="star" with W=0.08 (0.5% difference — acceptable).
+**Status (2026-08-17):** Research-grade solvers. Not a propulsion demonstration.
 
-## Solvers
+**Baseline:** \(W_\star = 1/(4\pi)\approx 0.08\) (phenomenology ledger). Option A: M2 is geometric/LDOS enhancement only.
 
-| File | Regime | Notes |
-|------|--------|-------|
-| physics_evaluator.py | Maxwell + Ware | Self-tests pass |
-| bem_sierpinski.py | Electrostatic BEM | Direction stable under refinement |
-| rf_bem_sierpinski.py | Magnetostatic + quasi-static RF | Thin-shell / Leontovich |
-| fullwave_bem.py | Full-wave EFIE | Radiating Helmholtz kernel; piecewise-constant; PEC |
+## Active modules
 
-## Mesh Convergence
+| File | Role |
+|------|------|
+| `physics_evaluator.py` | Maxwell + Ware surface-force evaluator |
+| `bem_sierpinski.py` | Electrostatic BEM on 0.45 Sierpinski |
+| `rf_bem_sierpinski.py` | Magnetostatic + quasi-static RF |
+| `fullwave_bem.py` | Full-wave EFIE (radiating Helmholtz kernel) |
+| `couple_sierpinski_evaluator.py` | Mesh → evaluator integration demo |
 
-Directional unit-vector dots under aft-face refinement (n_aft=1→2→3) are O(0.99) for electrostatic/RF modes. Force *magnitudes* are not yet mesh-converged to engineering tolerance; piecewise-constant basis limits accuracy. RWG/higher-order remains open.
+## Deprecated
 
-## Topological Pinch
+| File | Note |
+|------|------|
+| `physics_evaluator_snippet.py` | **Deprecated.** Raises on import. Historical zero-Maxwell / M2 fragment. |
 
-No solver output confirms the 92% aft-face claim. Treat as hypothesis.
+```bash
+python physics_evaluator.py
+python bem_sierpinski.py
+python fullwave_bem.py
+```
 
-## Cross-Ref
+Geometry dependency: sibling repo `sierpinski-geometry-045`.
 
-phenomenology · sierpinski-geometry-045 · coherence-drive
+## Limits
+
+Piecewise-constant BEM unknowns; PEC surface; dense solvers. Directional stability under refinement is observed; force magnitudes are not engineering-converged. No thrust claim.
+
+## Cross-references
+
+- Math ledger: [ware-constant-phenomenology](https://github.com/beyond-repair/ware-constant-phenomenology)
+- Consistency: [CFTv3.3-IQG-Unified-Framework](https://github.com/beyond-repair/CFTv3.3-IQG-Unified-Framework)
+- Geometry: [sierpinski-geometry-045](https://github.com/beyond-repair/sierpinski-geometry-045)
