@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-08-27T06:55:51.598259+00:00",
+  "protocol": "Paired exterior Yukawa convergence: structured Fibonacci shells, monopole DtN on outer sphere, patch gradient recovery. No target fitting.",
+  "mu": 1.0,
+  "hull_bc": "E2",
+  "n_radial": 4,
+  "hull_refine": 2,
+  "rows": [
+    {"R_outer": 3.0, "n_ang": 30, "sphere_|G|": 0.06948148811345184, "sphere_tets": 795, "tet_|G|": 0.026121004990431643, "tet_tets": 829, "ratio_tet_over_sphere": 0.38},
+    {"R_outer": 3.0, "n_ang": 50, "sphere_|G|": 0.058550113451, "sphere_tets": 1340, "tet_|G|": 0.016596, "tet_tets": 1314, "ratio_tet_over_sphere": 0.28},
+    {"R_outer": 5.0, "n_ang": 30, "sphere_|G|": 0.028287, "sphere_tets": 792, "tet_|G|": 0.0092751, "tet_tets": 829, "ratio_tet_over_sphere": 0.33},
+    {"R_outer": 5.0, "n_ang": 50, "sphere_|G|": 0.023947, "sphere_tets": 1338, "tet_|G|": 0.0036225, "tet_tets": 1306, "ratio_tet_over_sphere": 0.15},
+    {"R_outer": 8.0, "n_ang": 30, "sphere_|G|": 0.013055, "sphere_tets": 787, "tet_|G|": 0.0044991, "tet_tets": 824, "ratio_tet_over_sphere": 0.34},
+    {"R_outer": 8.0, "n_ang": 50, "sphere_|G|": 0.0091612, "sphere_tets": 1335, "tet_|G|": 0.00078479, "tet_tets": 1310, "ratio_tet_over_sphere": 0.09}
+  ],
+  "claim_flags": {
+    "experimental_validation": false,
+    "thrust_validated": false,
+    "energy_extraction_validated": false,
+    "target_fitting_performed": false,
+    "mu_fitted_to_thrust": false,
+    "alpha_fitted_to_thrust": false,
+    "R_outer_fitted_to_thrust": false
+  },
+  "verdict": "Tet residual tracks below spherical noise floor under refinement → consistent with vanishing continuum G for exterior E2 Yukawa."
+}
