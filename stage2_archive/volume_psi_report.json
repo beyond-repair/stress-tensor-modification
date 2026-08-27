@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-08-27T06:21:59.362682+00:00",
+  "protocol": "Volume Yukawa (-∇² + μ²)Ψ = 1, Ψ=0 on ∂Ω, solid tetrahedron. No target fitting. μ is a free model parameter.",
+  "volume_refine": 3,
+  "mu_values": [0.0, 1.0, 5.0],
+  "results": [
+    {"mu": 0.0, "n_tets": 512, "n_surface_faces": 256, "|G|": 1.658363e-05, "psi_max": 1.064163e-02},
+    {"mu": 1.0, "n_tets": 512, "n_surface_faces": 256, "|G|": 1.648494e-05, "psi_max": 1.057224e-02},
+    {"mu": 5.0, "n_tets": 512, "n_surface_faces": 256, "|G|": 1.443417e-05, "psi_max": 9.118566e-03}
+  ],
+  "refinement_study_mu_1": [
+    {"refine": 2, "tets": 64, "|G|": 9.252683e-05},
+    {"refine": 3, "tets": 512, "|G|": 1.648494e-05},
+    {"refine": 4, "tets": 4096, "|G|": 4.459227e-06}
+  ],
+  "claim_flags": {
+    "experimental_validation": false,
+    "thrust_validated": false,
+    "energy_extraction_validated": false,
+    "target_fitting_performed": false,
+    "mu_fitted_to_thrust": false
+  },
+  "verdict": "|G| decreases under refinement → consistent with vanishing continuum limit for interior Dirichlet Yukawa BVP."
+}
