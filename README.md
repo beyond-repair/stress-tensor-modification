@@ -5,14 +5,18 @@
 ### Research-grade **surface evaluators** on 0.45 geometry
 
 [![RESEARCH](https://img.shields.io/badge/not_thrust_demo-7c3aed?style=for-the-badge)](https://github.com/beyond-repair/coherence-drive)
+[![Claims](https://img.shields.io/badge/claim_flags-false-critical?style=for-the-badge)](CLAIM_STATUS.md)
 
 </div>
 
 ---
 
-## Why unique
+## What this is
 
-The only **executable** stress/BEM cluster in the Ware line — bridges theory talk to integrals without certifying thrust.
+Executable **Maxwell stress + BEM** tools on the shared 0.45 asymmetric Sierpinski mesh.  
+Bridges theory to surface integrals **without** certifying laboratory thrust.
+
+See [CLAIM_STATUS.md](CLAIM_STATUS.md).
 
 ---
 
@@ -23,25 +27,58 @@ The only **executable** stress/BEM cluster in the Ware line — bridges theory t
         │
  2. FIELD PATH   bem_sierpinski · rf_bem · fullwave_bem
         │
- 3. STRESS       physics_evaluator (EM + Ware-weight hooks)
+ 3. STRESS       physics_evaluator (Maxwell + optional Ware-weight hooks)
         │
- 4. SURFACE      ∮ T_eff · dA   (diagnostics)
+ 4. SURFACE      ∮ T · dA   (diagnostics)
         │
- 5. REPORT       residuals / directionality — NOT product F/P
+ 5. REPORT       residuals / directionality / estimated pattern A
+                 — NOT product F/P, NOT reactionless thrust
 ```
 
 | Step | How | Why |
 |-----:|-----|-----|
 | 1 | Shared 0.45 mesh | One shape language |
 | 2 | BEM / EFIE modules | Fields on real geometry |
-| 3 | Ware hooks under Option A | Engineering weight ≠ silent W★ rescale |
+| 3 | Maxwell + optional Ware hooks | Engineering weight ≠ silent cosmology rescale |
 | 4 | Surface integral | Momentum-closure story becomes numeric-capable |
 | 5 | Research limits | No engineering-converged thrust claim |
 
 ```bash
-python physics_evaluator.py
-python bem_sierpinski.py
-python fullwave_bem.py
+python physics_evaluator.py          # Maxwell null + uniform-E sphere tests
+python bem_sierpinski.py             # electrostatic BVP; net F residual is discretization
+python fullwave_bem.py               # radiating EFIE; diagnostic F + estimated |A|
+python couple_sierpinski_evaluator.py  # synthetic fields demo (not physical BVP)
 ```
 
-**Conjunction:** feeds Stage-2 path under [coherence-drive](https://github.com/beyond-repair/coherence-drive); phenomenology scoring stays in ware-constant-phenomenology.
+---
+
+## Maxwell stress (implemented)
+
+$$
+T_{ij}
+=
+\varepsilon_0\big(E_i E_j-\tfrac12\delta_{ij}E^2\big)
++
+\mu_0^{-1}\big(B_i B_j-\tfrac12\delta_{ij}B^2\big)
+$$
+
+`physics_evaluator.py` integrates \(F_i=\int T_{ij}n_j\,dA\) and passes null / closed-surface checks.
+
+---
+
+## Known gaps (honest)
+
+| Gap | Status |
+|-----|--------|
+| Dual-surface Class B \(\epsilon_F=\|F_d+F_X\|\) | **Not implemented** |
+| Full far-field Maxwell momentum flux | **Estimated** pattern \(A\) only in `fullwave_bem` |
+| Stage-2 continuum Yukawa/Proca nulls | On branch `stage2-numerical-closure` |
+| Laboratory validation | **false** |
+
+---
+
+## Conjunction
+
+Index: [coherence-drive](https://github.com/beyond-repair/coherence-drive)  
+Geometry: [sierpinski-geometry-045](https://github.com/beyond-repair/sierpinski-geometry-045)  
+Class B protocol: coherence-drive `docs/CLASS_B_VERIFICATION_PROTOCOL.md`
