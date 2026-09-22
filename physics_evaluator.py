@@ -5,17 +5,20 @@ import warnings
 from typing import Any, Dict, Optional, Tuple
 import numpy as np
 
-W_STAR = 0.08
+W_STAR = 1.0 / (4.0 * np.pi)  # Option A galactic / Maxwell anchor
+W_M2_PIN = 0.08  # engineering recursion pin at n=3
 C_LIGHT = 2.99792458e8
 MU0 = 4.0e-7 * np.pi
 EPS0 = 1.0 / (MU0 * C_LIGHT**2)
 
 
 class MaxwellStressTensorEvaluator:
-    def __init__(self, W_base: float = W_STAR, model: str = "star", chi_vac: float = 1.0):
-        self.W_base = float(W_base)
+    def __init__(self, W_base: float | None = None, model: str = "star", chi_vac: float = 1.0):
         self.model = model
         self.chi_vac = float(chi_vac)
+        if W_base is None:
+            W_base = W_M2_PIN if model == "M2" else W_STAR
+        self.W_base = float(W_base)
         if model == "M2":
             warnings.warn(
                 "M2 model selected: uses frozen W(n)=W_base*exp(0.23*(n-3)). "
@@ -115,8 +118,8 @@ def _self_test() -> None:
     out = ev.evaluate(E, np.zeros_like(cents), norms, areas)
     assert np.allclose(out["F_em"], 0.0, atol=1e-10)
     print("  uniform-E closed-surface test passed")
-    assert abs(ev.W() - 0.08) < 1e-15
-    print("  W_star lock passed")
+    assert abs(ev.W() - W_STAR) < 1e-15
+    print("  W_star = 1/(4π) lock passed")
     print("All self-tests passed.")
 
 
