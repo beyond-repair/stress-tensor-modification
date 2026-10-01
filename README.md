@@ -1,5 +1,21 @@
 <div align="center">
 
+[![Lifecycle](https://img.shields.io/badge/●_RESEARCH-a855f7?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
+[![Claim](https://img.shields.io/badge/Claim_≤1-22c55e?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
+[![Governance](https://img.shields.io/badge/ADL--Governance-7c3aed?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
+
+```
+LIFECYCLE   RESEARCH
+CLAIM       ≤1
+NOT CLAIMED thrust · energy extraction · AGI · production autonomy
+```
+
+</div>
+
+---
+
+<div align="center">
+
 # Stress Tensor Modification
 
 ### Research-grade **surface evaluators** on 0.45 geometry
@@ -82,3 +98,14 @@ $$
 Index: [coherence-drive](https://github.com/beyond-repair/coherence-drive)  
 Geometry: [sierpinski-geometry-045](https://github.com/beyond-repair/sierpinski-geometry-045)  
 Class B protocol: coherence-drive `docs/CLASS_B_VERIFICATION_PROTOCOL.md`
+
+
+---
+
+<div align="center">
+
+**REWRITE · BUILD · TRANSCEND**
+
+Governing source: [ADL-Governance](https://github.com/beyond-repair/ADL-Governance) · [Claim levels 0–5](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
+
+</div>
