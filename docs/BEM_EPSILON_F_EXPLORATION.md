@@ -1,3 +1,5 @@
+> Historical note, not the output of the current scripts. Run `stress-tensor-modification` for the numbers this tree prints. Constants were not refit to the tables below.
+
 # BEM / Dual-Surface ε_F Exploration
 
 **Date:** 2026-08-31  

@@ -16,7 +16,7 @@ Use instead:
   fullwave_bem.py               — frequency-domain EFIE
   couple_sierpinski_evaluator.py
 
-Baseline: W_star = 1/(4π) ≈ 0.08 (phenomenology ledger); Option A.
+Baseline: W_star = 1/(4π) ≈ 0.079577 (not the M2 pin 0.08); Option A.
 """
 
 raise ImportError(

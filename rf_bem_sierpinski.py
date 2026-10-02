@@ -13,18 +13,10 @@ Not a full-wave 3D Maxwell solver with radiation BCs.
 """
 
 from __future__ import annotations
-import sys
-from pathlib import Path
+
 import numpy as np
 
-for c in [Path("/tmp/sg"),
-          Path.cwd().parent / "sierpinski-geometry-045",
-          Path(__file__).resolve().parent.parent / "sierpinski-geometry-045"]:
-    if (c / "sierpinski_generator.py").exists():
-        sys.path.insert(0, str(c))
-        break
-
-from sierpinski_generator import generate_asymmetric_sierpinski
+from local_geometry import generate_asymmetric_sierpinski
 
 EPS0 = 8.854187817e-12
 MU0 = 4e-7 * np.pi
@@ -122,7 +114,9 @@ def main():
         print(f"  |Fe|={r['|Fe|']:.4e}  dir={r['dir_e']}")
         print(f"  |Fm|={r['|Fm|']:.4e}  dir={r['dir_m']}")
         print(f"  |Frf|={r['|Frf|']:.4e} dir={r['dir_rf']}")
-    print("\nQuasi-static / thin-shell only. Full-wave radiation BC open.")
+    print("\nQuasi-static / thin-shell only. Not a full-wave radiation solve.")
+    print("B_inf = 1 T on an open gasket. |Fm| is B^2/(2 mu0) bookkeeping,")
+    print("not a device force and not thrust. thrust_validated=false")
     print("=" * 60)
 
 
