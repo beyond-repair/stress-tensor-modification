@@ -1,3 +1,5 @@
+> Historical note, not the output of the current scripts. Run `stress-tensor-modification` for the numbers this tree prints. Constants were not refit to the tables below.
+
 # Compatible closure simulation pointer
 
 Physics-compatible form: F_device = -F_X only.

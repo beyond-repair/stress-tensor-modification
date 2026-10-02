@@ -21,26 +21,11 @@ It does verify:
 """
 
 from __future__ import annotations
-import sys
-from pathlib import Path
+
 import numpy as np
 
-# ---------------------------------------------------------------------------
-# Import paths (works when repos are siblings or when installed)
-# ---------------------------------------------------------------------------
-HERE = Path(__file__).resolve().parent
-CANDIDATES = [
-    HERE.parent / "sierpinski-geometry-045",
-    Path("/tmp/sg"),
-    Path.cwd().parent / "sierpinski-geometry-045",
-]
-for c in CANDIDATES:
-    if (c / "sierpinski_generator.py").exists():
-        sys.path.insert(0, str(c))
-        break
-
-from sierpinski_generator import generate_asymmetric_sierpinski  # noqa: E402
-from physics_evaluator import MaxwellStressTensorEvaluator       # noqa: E402
+from local_geometry import generate_asymmetric_sierpinski
+from physics_evaluator import MaxwellStressTensorEvaluator, W_M2_PIN, W_STAR
 
 
 def mesh_surface_elements(vertices: np.ndarray, faces: np.ndarray):
@@ -116,7 +101,9 @@ def run_case(n_aft: int = 3, n_fore: int = 1, alpha: float = 0.45):
 
 def main():
     print("=" * 60)
-    print("Sierpinski ↔ Evaluator coupling test (Option A, W_star=0.08)")
+    print("Sierpinski ↔ Evaluator coupling (synthetic fields, not a BVP)")
+    print(f"model=star  W_star={W_STAR:.17g} = 1/(4π)")
+    print(f"This is not the M2 pin W(3)={W_M2_PIN}. Constants are not refit.")
     print("=" * 60)
 
     results = []
@@ -146,7 +133,8 @@ def main():
     print("  - Non-zero F_info demonstrates that an asymmetric geometric")
     print("    proxy couples into a net residual under the evaluator.")
     print("  - Maxwell contribution remains small on the discrete surface.")
-    print("  - Option A: W is locked at 0.08 (model='star').")
+    print(f"  - Option A star model uses W={W_STAR:.17g}, not {W_M2_PIN}.")
+    print("  - F_info is W times a geometric proxy, not newtons of thrust.")
     print("=" * 60)
 
 

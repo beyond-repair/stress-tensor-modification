@@ -1,3 +1,5 @@
+> Historical note, not the output of the current scripts. Run `stress-tensor-modification` for the numbers this tree prints. Constants were not refit to the tables below.
+
 # Photon Class B ceiling vs Coherence Drive target
 
 **Claim flags:** false

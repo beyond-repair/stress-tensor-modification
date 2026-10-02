@@ -23,17 +23,10 @@ Force on the surface using 1/2 mu0 |I|^2 pressure is a DIAGNOSTIC only;
 prefer far-field momentum flux for Class B accounting.
 """
 from __future__ import annotations
-import sys
-from pathlib import Path
+
 import numpy as np
 
-for c in [Path("/tmp/sg"),
-          Path.cwd().parent / "sierpinski-geometry-045",
-          Path(__file__).resolve().parent.parent / "sierpinski-geometry-045"]:
-    if (c / "sierpinski_generator.py").exists():
-        sys.path.insert(0, str(c))
-        break
-from sierpinski_generator import generate_asymmetric_sierpinski
+from local_geometry import generate_asymmetric_sierpinski
 
 C = 2.99792458e8
 MU0 = 4e-7 * np.pi
@@ -155,9 +148,13 @@ def main():
             print(f"n_aft={n_aft} f={freq:.0e} faces={r['n_faces']} ka={r['ka_char']:.3f}")
             print(f"  |F|_surface_diag={r['|F|_surface_diagnostic']:.4e} (diagnostic only)")
             print(f"  P_rad_proxy={r['P_rad_proxy']:.4e}")
-            print(f"  |A|_pattern={r['pattern_asymmetry']['|A|']:.4e} (estimated)")
-    print("Radiating kernel; PEC; dense EFIE. Not RWG/MLFMA.")
+            a = r["pattern_asymmetry"]["|A|"]
+            fp = a / C
+            print(f"  |A|_pattern={a:.4e} (estimated)")
+            print(f"  |A|/c={fp:.4e} N/W  vs target 3e-8 (miss)  1/c={1.0/C:.4e}")
+    print("Radiating kernel; PEC; dense scalarized EFIE. Not RWG/MLFMA.")
     print("thrust_validated=false  epsilon_F not reported")
+    print("Photon ceiling 1/c is below 3e-8 N/W; pattern |A|<=1 cannot close that gap.")
     print("=" * 60)
 
 

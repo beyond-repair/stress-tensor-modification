@@ -19,23 +19,17 @@ Limitations
 - Electrostatics only (no magnetics / radiation).
 - Piecewise-constant σ per triangle; centroid collocation.
 - Self-term regularised by equivalent-disk approximation.
-- Net force on a closed conductor in uniform E is theoretically
-  zero; residual measures mesh asymmetry + discretisation error.
+- The gasket omits center triangles, so the surface is not watertight.
+  A closed conductor in uniform E would have zero net force; this mesh
+  is not that surface. The printed |F| is a discretisation residual,
+  not a device force. It is not observed to shrink from n_aft=1 to 3.
 """
 
 from __future__ import annotations
-import sys
-from pathlib import Path
+
 import numpy as np
 
-for c in [Path("/tmp/sg"),
-          Path.cwd().parent / "sierpinski-geometry-045",
-          Path(__file__).resolve().parent.parent / "sierpinski-geometry-045"]:
-    if (c / "sierpinski_generator.py").exists():
-        sys.path.insert(0, str(c))
-        break
-
-from sierpinski_generator import generate_asymmetric_sierpinski
+from local_geometry import generate_asymmetric_sierpinski
 
 EPS0 = 8.854187817e-12
 
@@ -110,7 +104,12 @@ def main():
     for i in range(1, len(dirs)):
         print(f"  {results[i-1]['n_aft']}→{results[i]['n_aft']}: "
               f"{np.dot(dirs[i-1], dirs[i]):.4f}")
-    print("\nReal BVP; electrostatics only; RF/magnetics open.")
+    mags = [r["|F|"] for r in results]
+    print("\nOpen gasket (not watertight). |F| is a residual, not thrust.")
+    print(f"|F| from n_aft=1 to 3: {mags[0]:.6e} → {mags[-1]:.6e}")
+    if mags[-1] > mags[0]:
+        print("Residual grew with aft refinement: not a closed-conductor null.")
+    print("Electrostatics only. epsilon_F not computed. thrust_validated=false")
     print("=" * 60)
 
 
