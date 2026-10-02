@@ -66,18 +66,18 @@ git clone https://github.com/beyond-repair/stress-tensor-modification.git
 cd stress-tensor-modification
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m pip install -e .
+python3 -m pip install -r requirements.txt
+python3 -m pip install -e ".[dev]"
 stress-tensor-modification
-python physics_evaluator.py
-python bem_sierpinski.py
-python rf_bem_sierpinski.py
-python fullwave_bem.py
-python couple_sierpinski_evaluator.py
+python3 physics_evaluator.py
+python3 bem_sierpinski.py
+python3 rf_bem_sierpinski.py
+python3 fullwave_bem.py
+python3 couple_sierpinski_evaluator.py
 pytest -q
 ```
 
-`stress-tensor-modification` is the same report as `python cli.py`.
+`stress-tensor-modification` is the same report as `python3 cli.py`.
 
 | Command | What it prints | What it does not say |
 |---------|----------------|----------------------|

@@ -21,6 +21,7 @@ stress-tensor-modification = "cli:main"
 [tool.setuptools]
 py-modules = [
   "physics_evaluator",
+  "physics_evaluator_snippet",
   "local_geometry",
   "closure",
   "bem_sierpinski",
